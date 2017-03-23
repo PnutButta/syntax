@@ -38,7 +38,6 @@ int lex();
 #define LETTER 0
 #define DIGIT 1
 #define UNKNOWN 99
-#define NEWLINE 100
 /* Token codes */
 #define INT_LIT 10
 #define IDENT 11
@@ -61,8 +60,9 @@ int main() {
             getChar(); do {
                 lex();
                 expr();
-                if (nextChar == '\n') {
+                if (nextToken == NEW_LINE) {
                     curr = 0;
+                    printf("\nNew expression \n");
                 }
             } while (nextToken != EOF);
         }
@@ -141,9 +141,6 @@ void getChar() {
          current[curr] = nextChar;
          curr = curr+1;
      }
-    else if (nextChar == '\n') {
-        charClass = NEWLINE;
-    }
      else
          charClass = EOF;
  }
@@ -186,30 +183,22 @@ int lex() {
              }
              nextToken = INT_LIT;
              break;
-             
-        /* NEW LINE*/
-         case NEWLINE:
-             nextToken = NEW_LINE;
-             lexeme[0] = 'N';
-             lexeme[1] = 'E';
-             lexeme[2] = 'W';
-             lexeme[3] = 0;
-             break;
+
              
         /* Parentheses and operators */
          case UNKNOWN:
              lookup(nextChar);
              getChar();
              
-            /*if (nextToken == NEW_LINE) {    // '\n' as unknown in charClass
-                 if (nextChar != EOF) {
-                     nextToken = NEW_LINE;
-                     lexeme[0] = 'N';
-                     lexeme[1] = 'E';
-                     lexeme[2] = 'W';
-                     lexeme[3] = 0;
-                 }
-             }*/
+            if (nextToken == NEW_LINE) {    // '\n' as unknown in charClass
+                if (nextChar != EOF) {
+                    nextToken = NEW_LINE;
+                    lexeme[0] = 'N';
+                    lexeme[1] = 'E';
+                    lexeme[2] = 'W';
+                    lexeme[3] = 0;
+                }
+             }
              break;
              
         /* EOF */
