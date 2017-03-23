@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 /* Global declarations */
 /* Variables */
@@ -120,9 +121,10 @@ int lookup(char ch) {
 /* clear
  - a function to clear the expression array for new expressions*/
 void clear() {
-    for(int i = 0; i < curr; i=i+1) {
-        expression[i] = ' ';
-    }
+    memset(expression, 0, sizeof expression);
+    //for(int i = 0; i < curr; i=i+1) {
+      //  expression[i] = ' ';
+    //}
 }
 /* addChar 
  - a function to add nextChar to lexeme */
@@ -147,7 +149,7 @@ void getChar() {
             else charClass = UNKNOWN;
          expression[curr] = nextChar;          //add to expression array
          curr = curr+1;
-         if (nextToken == '\n') {
+         if (nextChar == '\n') {
              clear();
              curr = 0;
          }
