@@ -17,7 +17,7 @@
 int charClass;
 char lexeme [100];
 char nextChar;
-char current [100];
+char expression [100];
 int curr;
 int lexLen;
 int token;
@@ -138,7 +138,7 @@ void getChar() {
          else if (isdigit(nextChar))
              charClass = DIGIT;
             else charClass = UNKNOWN;
-         current[curr] = nextChar;
+         expression[curr] = nextChar;          //add to expression array
          curr = curr+1;
      }
      else
@@ -149,7 +149,7 @@ void getChar() {
  - a function to call getChar until it
  returns a non-whitespace character */
 void getNonBlank() {
-    if (nextChar != '\n') {
+    if (nextChar != '\n') {            // ensure \n is not skipped as whitespace
      while (isspace(nextChar))
          getChar();
     }
@@ -200,8 +200,8 @@ int lex() {
                     break;
                 }
                 
-                else                        // If nextChar is EOF, skip newline 
-                    goto LINE209;
+                else                        // If nextChar is EOF, skip newline
+                    goto LINE209;           // goto EOF case
              }
              break;
              
@@ -293,8 +293,8 @@ void factor() {
  to place where error is found
  */
 void error() {
-    for (int i = 0; i < curr; i=i+1) {
-        printf("%c", current[i]);
+    for (int i = 0; i < curr; i=i+1) {          //iterate thru expression to show before error
+        printf("%c", expression[i]);
     }
     printf("\n");
     printf("Error has occured at '%s' \n", lexeme);
