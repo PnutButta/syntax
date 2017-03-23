@@ -30,6 +30,7 @@ void getNonBlank();
 void factor();
 void term();
 void expr();
+void error();
 
 int lex();
 /* Character classes */
@@ -242,4 +243,11 @@ void factor() {
     
     printf("Exit <factor>\n");;
 }  /* End of function factor */
+/* erorr
+ If error is found in line, line is printed from start
+ to place where error is found
+ */
+void error() {
+    
+}
 
