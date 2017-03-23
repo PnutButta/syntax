@@ -48,6 +48,7 @@ int lex();
 #define DIV_OP 24
 #define LEFT_PAREN 25
 #define RIGHT_PAREN 26
+#define NEW_LINE 30
 
 /* main driver */
 int main() {
@@ -59,7 +60,7 @@ int main() {
             getChar(); do {
                 lex();
                 expr();
-            } while ((nextToken != EOF) || (nextChar == '\n'));
+            } while (nextToken != EOF);
         }
 }
 
@@ -93,6 +94,16 @@ int lookup(char ch) {
         case '*':
             addChar();
             nextToken = MULT_OP;
+            break;
+            
+        case '/':
+            addChar();
+            nextToken = DIV_OP;
+            break;
+            
+        case '\n':
+            addChar();
+            nextToken = NEW_LINE;
             break;
             
         default:
@@ -131,7 +142,7 @@ void getChar() {
          charClass = EOF;
  }
 
-/* getNonBlank 
+/* getNonBlank
  - a function to call getChar until it
  returns a non-whitespace character */
 void getNonBlank() {
@@ -144,7 +155,7 @@ void getNonBlank() {
  expressions */
 int lex() {
      lexLen = 0;
-    getNonBlank();
+     getNonBlank();
      switch (charClass) {
         /* Parse identifiers */
          case LETTER:
@@ -154,8 +165,9 @@ int lex() {
                  addChar();
                  getChar();
              }
+             nextToken = IDENT;
+             break;
              
-             nextToken = IDENT; break;
         /* Parse integer literals */
          case DIGIT:
              addChar();
@@ -166,11 +178,18 @@ int lex() {
              }
              nextToken = INT_LIT;
              break;
+             
         /* Parentheses and operators */
          case UNKNOWN:
              lookup(nextChar);
              getChar();
              break;
+             
+        /* NEW LINE*/
+         case NEW_LINE:
+             nextToken = NEW_LINE;
+             break;
+             
         /* EOF */
          case EOF:
              nextToken = EOF;
@@ -180,8 +199,9 @@ int lex() {
              lexeme[3] = 0;
              break;
      } /* End of switch */
-    printf("Next token is: %d, Next lexeme is %s\n",
-           nextToken, lexeme); return nextToken;
+     printf("Next token is: %d, Next lexeme is %s\n",
+           nextToken, lexeme);
+     return nextToken;
  }
 
 /* expr
@@ -214,7 +234,8 @@ void term() {
      next token and parse the next factor */
     while (nextToken == MULT_OP || nextToken == DIV_OP) {
         lex();
-        factor(); }
+        factor();
+    }
     printf("Exit <term>\n");
  }
 
