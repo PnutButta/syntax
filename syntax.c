@@ -249,6 +249,7 @@ void factor() {
  to place where error is found
  */
 void error() {
-    printf("Error\n");
+    printf("Error has occured at '%s' \n", lexeme);
+    
  }
 
