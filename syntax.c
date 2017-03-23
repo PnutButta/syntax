@@ -9,7 +9,6 @@
 /* front.c - a lexical analyzer system for simple
  arithmetic expressions */
 
-#include "syntax.h"
 #include <stdio.h>
 #include <ctype.h>
 
@@ -49,12 +48,12 @@ int lex();
 #define RIGHT_PAREN 26
 
 /* main driver */
-main() {
+int main() {
     /* Open the input data file and process its contents */ if ((in_fp = fopen("front.in", "r")) == NULL)
         printf("ERROR - cannot open front.in \n"); else {
             getChar(); do {
                 lex();
-                //expr
+                expr();
             } while (nextToken != EOF);
         }
 }
@@ -242,7 +241,7 @@ void factor() {
             error();
     }  /* End of else */
     
-    printf("Exit <factor>\n");;
+    printf("Exit <factor>\n");
  }
 
 /* erorr
@@ -250,6 +249,6 @@ void factor() {
  to place where error is found
  */
 void error() {
-    
+    printf("Error\n");
  }
 
