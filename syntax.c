@@ -32,6 +32,7 @@ void factor();
 void term();
 void expr();
 void error();
+void clear();
 
 int lex();
 /* Character classes */
@@ -116,6 +117,13 @@ int lookup(char ch) {
     return nextToken;
 }
 
+/* clear
+ - a function to clear the expression array for new expressions*/
+void clear() {
+    for(int i = 0; i < curr; i=i+1) {
+        expression[i] = ' ';
+    }
+}
 /* addChar 
  - a function to add nextChar to lexeme */
 void addChar() {
@@ -139,8 +147,10 @@ void getChar() {
             else charClass = UNKNOWN;
          expression[curr] = nextChar;          //add to expression array
          curr = curr+1;
-         if (nextToken == '\n')
+         if (nextToken == '\n') {
+             clear();
              curr = 0;
+         }
      }
      else
          charClass = EOF;
