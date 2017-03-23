@@ -197,11 +197,16 @@ int lex() {
                     lexeme[1] = 'E';
                     lexeme[2] = 'W';
                     lexeme[3] = 0;
+                    break;
                 }
+                
+                else                        // If nextChar is EOF, skip newline 
+                    goto LINE209;
              }
              break;
              
         /* EOF */
+         LINE209:
          case EOF:
              nextToken = EOF;
              lexeme[0] = 'E';
