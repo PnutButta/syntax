@@ -105,7 +105,7 @@ int lookup(char ch) {
             break;
             
         case '\n':
-            nextToken = EOF;
+            nextToken = NEW_LINE;
             break;
             
         default:
@@ -148,8 +148,10 @@ void getChar() {
  - a function to call getChar until it
  returns a non-whitespace character */
 void getNonBlank() {
+    if (nextChar != '\n') {
      while (isspace(nextChar))
          getChar();
+    }
  }
 
 /* lex 
@@ -190,6 +192,10 @@ int lex() {
         /* NEW LINE*/
          case NEW_LINE:
              nextToken = NEW_LINE;
+             lexeme[0] = 'N';
+             lexeme[1] = 'E';
+             lexeme[2] = 'W';
+             lexeme[3] = 0;
              break;
              
         /* EOF */
