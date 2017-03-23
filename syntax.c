@@ -61,7 +61,6 @@ int main() {
                 lex();
                 expr();
                 if (nextToken == NEW_LINE) {
-                    curr = 0;
                     printf("\nNew expression \n");
                 }
             } while (nextToken != EOF);
@@ -140,6 +139,8 @@ void getChar() {
             else charClass = UNKNOWN;
          expression[curr] = nextChar;          //add to expression array
          curr = curr+1;
+         if (nextToken == '\n')
+             curr = 0;
      }
      else
          charClass = EOF;
