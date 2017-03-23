@@ -17,6 +17,8 @@
 int charClass;
 char lexeme [100];
 char nextChar;
+char current [100];
+int curr;
 int lexLen;
 int token;
 int nextToken;
@@ -49,8 +51,11 @@ int lex();
 
 /* main driver */
 int main() {
-    /* Open the input data file and process its contents */ if ((in_fp = fopen("front.in", "r")) == NULL)
-        printf("ERROR - cannot open front.in \n"); else {
+    curr = 0; //start over for each line
+    /* Open the input data file and process its contents */
+    if ((in_fp = fopen("front.in", "r")) == NULL)
+        printf("ERROR - cannot open front.in \n");
+    else {
             getChar(); do {
                 lex();
                 expr();
@@ -119,6 +124,8 @@ void getChar() {
          else if (isdigit(nextChar))
              charClass = DIGIT;
             else charClass = UNKNOWN;
+         current[curr] = nextChar;
+         curr = curr+1;
      }
      else
          charClass = EOF;
@@ -173,7 +180,6 @@ int lex() {
              lexeme[3] = 0;
              break;
      } /* End of switch */
-    
     printf("Next token is: %d, Next lexeme is %s\n",
            nextToken, lexeme); return nextToken;
  }
@@ -250,8 +256,8 @@ void factor() {
  to place where error is found
  */
 void error() {
-    for (int i = 0; i < 10; i=i+1) {
-        printf("%c", lexeme[i]);
+    for (int i = 0; i < curr; i=i+1) {
+        printf("%c", current[i]);
     }
     printf("\n");
     printf("Error has occured at '%s' \n", lexeme);
