@@ -173,6 +173,7 @@ int lex() {
              lexeme[3] = 0;
              break;
      } /* End of switch */
+    
     printf("Next token is: %d, Next lexeme is %s\n",
            nextToken, lexeme); return nextToken;
  }
@@ -249,6 +250,10 @@ void factor() {
  to place where error is found
  */
 void error() {
+    for (int i = 0; i < 10; i=i+1) {
+        printf("%c", lexeme[i]);
+    }
+    printf("\n");
     printf("Error has occured at '%s' \n", lexeme);
     
  }
