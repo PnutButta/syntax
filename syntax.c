@@ -59,7 +59,7 @@ int main() {
             getChar(); do {
                 lex();
                 expr();
-            } while ((nextToken != EOF) || (nextChar != '\n'));
+            } while ((nextToken != EOF) || (nextChar == '\n'));
         }
 }
 
