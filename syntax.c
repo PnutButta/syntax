@@ -61,6 +61,9 @@ int main() {
                 lex();
                 expr();
             } while (nextToken != EOF);
+        if (nextChar == '\n') {
+            curr = 0;
+        }
         }
 }
 
@@ -102,8 +105,7 @@ int lookup(char ch) {
             break;
             
         case '\n':
-            addChar();
-            nextToken = NEW_LINE;
+            nextToken = EOF;
             break;
             
         default:
