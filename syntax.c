@@ -53,12 +53,16 @@ int lex();
 #define NEW_LINE 30
 
 /* main driver */
-int main() {
+int main(int argc, char *argv[]) {
     curr = 0; //start over for each line
-    /* Open the input data file and process its contents */
-    if ((in_fp = fopen("front.in", "r")) == NULL)
-        printf("ERROR - cannot open front.in \n");
+    if (argc != 2) {
+        printf("No filename input\n");
+    }
     else {
+        /* Open the input data file and process its contents */
+        if ((in_fp = fopen(argv[1], "r")) == NULL)
+            printf("ERROR - cannot open front.in \n");
+        else {
             getChar(); do {
                 lex();
                 expr();
@@ -67,6 +71,8 @@ int main() {
                 }
             } while (nextToken != EOF);
         }
+
+    }
 }
 
 /******************************************************/
@@ -306,11 +312,11 @@ void factor() {
  to place where error is found
  */
 void error() {
-    for (int i = 0; i < curr; i=i+1) {          //iterate thru expression to show before error
+    printf("\n");
+    for (int i = 0; i < curr; i=i+1) {         //iterate to show expr before error
         printf("%c", expression[i]);
     }
-    printf("\n");
-    printf("Error has occured at '%s' \n", lexeme);
+    printf("\nError has occured at '%s' \n\n", lexeme);
     
  }
 
